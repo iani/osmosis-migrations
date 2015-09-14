@@ -115,27 +115,33 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 "(playbuf.lpf)".arlink;
 //:
-{ | freq = 1000, q = 1 |
+{ | freq = 1000, q = 1 vol = 1 |
 	var src;
 	src = Resonz.ar (Inp.ar, freq * LFNoise0.kr (0.25).range (0.5, 2) * [1, 1.2, 1.5], q);
-	Mix (src)
+	Mix (src) * vol
 } ++> 'resonz';
 //:
-{ | freq = 1000, q = 1 |
+{ | freq = 1000, q = 1, vol = 1, rate = 1 |
 	var src;
-	src = Resonz.ar (Inp.ar, freq * LFNoise0.kr (0.25).range (0.5, 2)
+	src = Resonz.ar (Inp.ar, freq * LFNoise0.kr (rate).range (0.5, 2)
 		* [1, 1.2, 1.5, 1.6, 1.7, 1.8, 1.9, 2], q);
-	Mix (src)
+	Mix (src) * vol
 } ++> 'resonz';
 //:
-{ | freq = 1000, q = 1 |
+{ | freq = 1000, q = 1, vol = 1 |
 	var src;
 	src = Resonz.ar (Inp.ar, freq * LFDNoise1.kr (0.25).range (0.25, 4) * [1, 1.2, 1.5], q);
-	Mix (src)
+	Mix (src) * vol
+} ++> 'resonz';
+//:
+{ | freq = 1000, q = 1, vol = 1, rate = 1 |
+	var src;
+	src = Resonz.ar (Inp.ar, freq * Lag.kr (LFDNoise0.kr (rate).range (0.25, 4), 0.01) * [1, 1.2, 1.5], q);
+	Mix (src) * vol
 } ++> 'resonz';
 //:
 { | freq = 1000, q = 1 |
-	var inp, pitch src;
+	var inp, pitch, src;
 	inp = Inp.ar;
 	
 	src = Resonz.ar (Inp.ar, freq * LFDNoise1.kr (0.25).range (0.25, 4) * [1, 1.2, 1.5], q);
@@ -148,16 +154,32 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 0.002 +>.q 'resonz';
 //:
+20 +>.rate 'resonz';
+//:
 'eisitirio'.bufnum +>.buf 'playbuf';
 //:
-0.5 +>.rate 'playbuf2';
+1 +>.rate 'bufrd';
 //:
 1 +>.rate 'playbuf2';
+//:
+0.01 +>.q 'resonz';
 
+//:
+10 +>.vol 'resonz';
+
+//:
+"([playbuf.playbuf2].resonz)(playbuf3.pv)".arlink;
+//:
+"(playbuf3.pv)".arlink;
+//:
+"playbuf3".arlink;
+//:
+"(bufrd.resonz)".arlink;
+//:
 ////////////////////////////////////////////////////////////////
 
 //: PlayBuf: Use envelope to stop. Startpos, dur, rate
-'song1'.bufnum +>.buf 'playbuf3';
+'speaks1'.bufnum +>.buf 'playbuf3';
 0 +>.from 'playbuf3';
 'eisitirio'.buf.duration * 10 +>.dur 'playbuf3';
 { | buf = 0 from = 0 dur = 1 rate = 1 trigger = 1 |
@@ -173,12 +195,12 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 
 } ++> 'playbuf3';
 //:
-{
+{ | vol = 1 |
 	var in, chain;
 	in = Inp.ar;
 	chain = FFT(LocalBuf(2048), in);
 	chain = PV_MagBelow(chain, MouseX.kr(0, 10));
-    IFFT(chain);
+    IFFT(chain) * vol;
 } ++> 'pv';
 //:
 {
@@ -189,6 +211,8 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
     IFFT(chain);
 } ++> 'pv';
 //:
+'song1'.bufnum +>.buf 'playbuf3';
+//:
 {
 	var in, chain;
 	in = Inp.ar;
@@ -196,10 +220,25 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 	chain = PV_MagFreeze(chain, MouseY.kr > 0.5 );
     IFFT(chain);
 } ++> 'pv';
+
 //:
-"([playbuf.playbuf2].resonz)(playbuf3.pv)".arlink;
+"(bufrd.resonz)".arlink;
 //:
-"(playbuf3.pv)".arlink;
+5 +>.vol 'pv';
+
 //:
-"playbuf3".arlink;
+0.005 +>.q 'resonz';
+//:
+1 +>.rate 'resonz';
+
+//:
+200 +>.freq 'resonz';
+0.2 +>.rate 'resonz';
+50 +>.vol 'resonz';
+
+//:
+0.5 +>.rate 'bufrd';
+
+//:
+0.001 +>.q 'resonz';
 //:
