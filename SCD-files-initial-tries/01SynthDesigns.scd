@@ -130,13 +130,13 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 { | freq = 1000, q = 1, vol = 1 |
 	var src;
-	src = Resonz.ar (Inp.ar, freq * LFDNoise1.kr (0.25).range (0.25, 4) * [1, 1.2, 1.5], q);
+	src = Resonz.ar (Inp.ar, freq * LFDNoise1.kr (0.25).range (0.15, 4) * [1, 1.2, 1.5], q);
 	Mix (src) * vol
 } ++> 'resonz';
 //:
 { | freq = 1000, q = 1, vol = 1, rate = 1 |
 	var src;
-	src = Resonz.ar (Inp.ar, freq * Lag.kr (LFDNoise0.kr (rate).range (0.25, 4), 0.01) * [1, 1.2, 1.5], q);
+	src = Resonz.ar (Inp.ar, freq * Lag.kr (LFDNoise0.kr (rate).range (0.05, 4), 0.05) * [1, 1.2, 1.5], q);
 	Mix (src) * vol
 } ++> 'resonz';
 //:
@@ -156,16 +156,24 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 20 +>.rate 'resonz';
 //:
+30 +>.rate 'resonz';
+//:
+0.31 +>.rate 'resonz';
+//:
+1 +>.rate 'resonz';
+//:
+2.2 +>.rate 'resonz';
+//:
 'eisitirio'.bufnum +>.buf 'playbuf';
 //:
 1 +>.rate 'bufrd';
 //:
-1 +>.rate 'playbuf2';
+1.0 +>.rate 'playbuf2';
 //:
-0.01 +>.q 'resonz';
+0.006 +>.q 'resonz';
 
 //:
-10 +>.vol 'resonz';
+1.5 +>.vol 'resonz';
 
 //:
 "([playbuf.playbuf2].resonz)(playbuf3.pv)".arlink;
@@ -174,7 +182,7 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 "playbuf3".arlink;
 //:
-"(bufrd.resonz)".arlink;
+"(playbuf.resonz)".arlink;
 //:
 ////////////////////////////////////////////////////////////////
 
@@ -209,7 +217,7 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 	chain = FFT(LocalBuf(2048), in);
 	chain = PV_MagSmear(chain, MouseX.kr(0, 100));
     IFFT(chain);
-} ++> 'pv';
+} *ma++> 'pv';
 //:
 'song1'.bufnum +>.buf 'playbuf3';
 //:
@@ -222,23 +230,24 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 } ++> 'pv';
 
 //:
-"(bufrd.resonz)".arlink;
+"(playbuf.resonz)".arlink;
 //:
 5 +>.vol 'pv';
 
 //:
-0.005 +>.q 'resonz';
+0.5 +>.q 'resonz';
 //:
 1 +>.rate 'resonz';
 
 //:
-200 +>.freq 'resonz';
-0.2 +>.rate 'resonz';
+400 +>.freq 'resonz';
+1 +>.rate 'resonz';
 50 +>.vol 'resonz';
 
 //:
-0.5 +>.rate 'bufrd';
+1.5 +>.rate 'bufrd';
 
 //:
 0.001 +>.q 'resonz';
 //:
+"(playbuf3.pv)".arlink;

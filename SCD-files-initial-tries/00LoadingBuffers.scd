@@ -40,7 +40,7 @@ f = { | buf = 0 |
 	);
 } ++> \bufrd;
 //:
-\xeno.bufnum +>.buf \bufrd;
+'eisitirio'.bufnum +>.buf \bufrd;
 { | buf = 0 |
 	BufRd.ar(2, buf,
 		Line.ar(0, BufFrames.kr(buf), BufFrames.kr (buf) / BufSampleRate.kr (buf)),
@@ -48,7 +48,7 @@ f = { | buf = 0 |
 	);
 } ++> \bufrd;
 //:
-\xeno.bufnum +>.buf \bufrd;
+'eisitirio'.bufnum +>.buf \bufrd;
 { | buf = 0 |
 	BufRd.ar(2, buf,
 		Line.ar(BufFrames.kr(buf), 0, BufFrames.kr (buf) / BufSampleRate.kr (buf)),

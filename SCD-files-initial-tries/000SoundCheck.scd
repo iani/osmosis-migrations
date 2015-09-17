@@ -7,4 +7,4 @@
 
 //:
 
-{ PinkNoise.ar (SinOsc.kr ([2, 0.05], [0, pi / 2], 0.1)) } ++> 'soundCheck';
+{ PinkNoise.ar (SinOsc.kr ([2 0.05], [0, pi / 2], 0.1)) } ++> 'soundCheck';
