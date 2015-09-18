@@ -26,6 +26,31 @@ Eisitirio {
 	}
 
 	*harmonies {
+		var volspec, freqspec, qspec, ratespec;
+		volspec = \amp.asSpec;
+		freqspec = \freq.asSpec;
+		qspec = ControlSpec (0.1, 1.1, 0.0005, 1, \exp);
+		ratespec = ControlSpec (0, 1, 0.2, 5);
+		JLslider (2, 1, { | val |    //////////////// AMP
+			val = volspec.map (val / 127);
+			val * 3 +>.vol \harmonies;
+		});
+		JLslider (2, 2, { | val | //////////////// FREQ
+			val = freqspec.map (val / 127);
+			val +>.freq \harmonies;
+		});
+		/*
+		JLslider (2, 3, { | val | //////////////// Q
+			val = qspec.map (val / 127 + 0.1);
+			val +>.q \harmonies;
+		});
+		*/
+		/*
+		JLslider (2, 4, { | val | //////////////// RATE
+			val = ratespec.map (val / 127);
+			val +>.rate \eisagogi;
+		});
+		*/
 		"(eisagogi.harmonies)".arlink;
 		'eisitirio'.bufnum +>.buf 'eisagogi';
 		1 +>.rate 'eisagogi';
@@ -33,3 +58,13 @@ Eisitirio {
 		SF.playbufpan ++> 'eisagogi';
 	}
 }
+
+/*
+
+\freq.asSpec.map(0);
+
+0.3 +>.rate \eisagogi;
+1 +>.rate \eisagogi;
+
+0.1 +>.q \harmonies;
+*/
