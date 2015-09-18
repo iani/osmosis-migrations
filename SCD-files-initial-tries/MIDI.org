@@ -43,7 +43,7 @@ The key numbers are:
 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44 | 45 |
 #+TBLFM: $1=@-1 + 1::@1$1=33
 
-* MIDI controls for JLC CS-32
+* MIDI controls for JLCooper CS-32
 
 ** Buttons
 

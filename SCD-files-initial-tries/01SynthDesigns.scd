@@ -70,9 +70,9 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 
 } ++> 'playbuf';
 //: PlayBuf: Use envelope to stop. Startpos, dur, rate
-'eisitirio'.bufnum +>.buf 'playbuf2';
-0 +>.from 'playbuf2';
-'eisitirio'.buf.duration * 10 +>.dur 'playbuf2';
+'eisitirio'.bufnum +>.buf 'playbuf';
+0 +>.from 'playbuf';
+'eisitirio'.buf.duration * 10 +>.dur 'playbuf';
 { | buf = 0 from = 0 dur = 1 rate = 1 trigger = 1 |
 	PlayBuf.ar (1, buf,
 		rate * BufRateScale.kr (buf),
@@ -84,7 +84,7 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 		trigger, doneAction: 0
 	);
 
-} ++> 'playbuf2';
+} ++> 'playbuf';
 //:
 {
 	-1 +>.trigger 'playbuf';
@@ -150,9 +150,10 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 "([playbuf.playbuf2].resonz)".arlink;
 //:
-400 +>.freq 'resonz';
+
+260 +>.freq 'resonz';
 //:
-0.002 +>.q 'resonz';
+0.01 +>.q 'resonz';
 //:
 20 +>.rate 'resonz';
 //:
@@ -168,13 +169,16 @@ arg numChannels, bufnum=0, rate=1.0, trigger=1.0, startPos=0.0, loop = 0.0, done
 //:
 1 +>.rate 'bufrd';
 //:
-1.0 +>.rate 'playbuf2';
+0.2 +>.rate 'playbuf';
 //:
 0.006 +>.q 'resonz';
 
 //:
 1.5 +>.vol 'resonz';
 
+
+//:
+'resonz'
 //:
 "([playbuf.playbuf2].resonz)(playbuf3.pv)".arlink;
 //:

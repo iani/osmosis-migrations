@@ -1,30 +1,10 @@
 
-S0 {
-	*init {
-		Server.local.boot;
-		BufferList.loadFolder;
-		MIDIIn.connectAll;
-		this.initMIDI;
-	}
 
-	*initMIDI {
-		KnobOn (1, { Eisitirio.intro; });  // knob col 1 row 1
-		// KnobOff (1, { "just testing knob off".postln; });
-		KnobOn (5, { Reza.start });       // col 2 row 1
-		KnobOn (9, { HasanSong.plain });  // col 3 row 1
-		KnobOn (10, { HasanSong.pv });    // col 3 row 2
-		KnobOn (13, { Lefteris.start });  // col 4 row 1
-	}
-}
-
-/*
-S0.init;
-*/
 Eisitirio {
 	*intro {
 		//: PlayBuf: Use envelope to stop. Startpos, dur, rate
-		this.introMIDI;
 		"--- Scene 1 - INTRO".postln;
+		this.introMIDI;
 		'eisitirio'.bufnum +>.buf 'eisagogi';
 		0 +>.from 'eisagogi';
 		1 +>.rate 'eisagogi';
@@ -55,6 +35,10 @@ Eisitirio {
 			vals.postln;
 		})
 	}
+
+	*harmonies {
+		
+	}
 }
 
 Reza {
@@ -66,10 +50,43 @@ Reza {
 	}
 }
 
+RezaSong {
+	*plain {
+		"--- Starting Reza2 Song: PLAIN".postln;
+		'song1'.bufnum +>.buf \rezasong;
+		0.2 +>.vol \rezasong;
+		SF.playbuf ++> \rezasong;
+	}
+
+	*pv {
+		"--- Starting Reza2 Song: PV".postln;
+		"(rezasong.pv)".arlink;
+
+		SF.magabovepan ++> \pv;
+		
+		'song1'.bufnum +>.buf \rezasong;
+		0.2 +>.vol \rezasong;
+		SF.playbuf ++> \rezasong;
+
+		JLslider(2, 1, { | val |
+			var scaled;
+			scaled = val / 127;
+			scaled * 100 +>.thresh 'pv';
+			scaled + 0.5 +>.vol 'pv';
+		});
+
+		JLbutton (4, 3, {
+			
+		});
+
+	}
+	
+}
+
 HasanSong {
 	*plain {
 		"--- Starting Hasan Song: PLAIN".postln;
-		'song1'.bufnum +>.buf \hasansong;
+		'song4_hasan'.bufnum +>.buf \hasansong;
 		0.2 +>.vol \hasansong;
 		SF.playbuf ++> \hasansong;
 	}
@@ -80,13 +97,24 @@ HasanSong {
 
 		SF.magabovepan ++> \pv;
 		
-		'song1'.bufnum +>.buf \hasansong;
+		'song4_hasan'.bufnum +>.buf \hasansong;
 		0.2 +>.vol \hasansong;
-		SF.playbuf ++> \hasansong;	
+		SF.playbuf ++> \hasansong;
+
+		JLslider(2, 1, { | val |
+			var scaled;
+			scaled = val / 127;
+			scaled * 100 +>.thresh 'pv';
+			scaled + 0.5 +>.vol 'pv';
+		});
+
+		JLbutton (4, 3, {
+			
+		});
+
 	}
 	
 }
-
 Lefteris {
 	*start {
 		"--- Starting Levteris".postln;
@@ -98,16 +126,52 @@ Lefteris {
 
 Hasan {
 	*start {
-		"--- Starting Reza".postln;
+		"--- Starting Hasan".postln;
 		'song4_hasan'.bufnum +>.buf \hasan;
 		0.8 +>.vol \hasan;
 		SF.playbufpan ++> \hasan;
 	}
+	*pv {
+		"--- Starting Hasan: PV".postln;
+		"(hasansong.pv)".arlink;
+
+		SF.magabovepan ++> \pv;
+		
+		'song4_hasan'.bufnum +>.buf \hasan;
+		0.2 +>.vol \hasan;
+		SF.playbuf ++> \hasan;
+
+		JLslider(2, 1, { | val |
+			var scaled;
+			scaled = val / 127;
+			scaled * 100 +>.thresh 'pv';
+			scaled + 0.5 +>.vol 'pv';
+		});
+
+		JLbutton (4, 3, {
+			
+		});
+
+	}
+}
+
+Aerodromio {
+	*start {
+		"--- Starting Aerodromio".postln;
+		'istories'.bufnum +>.buf \aerodromio;
+		0.8 +>.vol \aerodromio;
+		SF.playbufpan ++> \aerodromio;
+	}
 }
 
 /*
-Lefteris.start;
-Reza.start;
-Hasan.start;
-10 +>.thresh 'pv';
+	Lefteris.start;
+C	Reza.start;
+	Hasan.start;
+	10 +>.thresh 'pv';
+
+HasanSong.plain;
+HasanSong.pv;
+
+Eisitirio.intro;
 */

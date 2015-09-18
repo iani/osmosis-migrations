@@ -42,6 +42,23 @@ SF {
 	////////////////////////////////////////////////////////////////
 	// PV
 	////////////////////////////////////////////////////////////////
+
+ /*
+'song1'.bufnum +>.buf \hasansong;
+0.2 +>.vol \hasansong;
+SF.playbuf ++> \hasansong;
+
+SF.pinkamppan ++> \pv;
+SF.pitchpan ++> \pv;
+SF.magbelowpan ++> \pv;
+
+5 +>.thresh \pv;
+
+"(hasansong.pv)".arlink;
+
+1 +>.wet 'pv';
+
+	*/
 	
 	*magbelow {
 		^{ | thresh = 0 vol = 1 |
@@ -98,7 +115,7 @@ SF {
 
 	*pinkamppan {
 		^{ | wet = 0 pos = 0 vol = 1 |
-			var in, amp;
+			var in, amp, src;
 			in = Inp.ar;
 			amp = Amplitude.kr (in);
 			src = 1 - wet * in + (wet * PinkNoise.ar (amp));
@@ -129,9 +146,9 @@ SF {
 }
 
 /*
-'song1'.bufnum +>.buf \test;
-0.2 +>.vol \test;
-SF.playbuf ++> \test;
+'song1'.bufnum +>.buf \hasansong;
+0.2 +>.vol \hasansong;
+SF.playbuf ++> \hasansong;
 
 
 SF.amp ++> \pv;
