@@ -7,6 +7,32 @@ HasanSong {
 		SF.playbuf ++> \hasansong;
 	}
 
+	*bridge {
+		"--- Starting Hasan Song: PV".postln;
+		"(hasansong.pinkamp)".arlink;
+
+		//	SF.magbelowpan ++> \pv;
+		SF.magsmearpan ++> \pv;
+		1 +>.wet \pinkamp;
+		SF.pinkamppan ++> \pinkamp;
+		
+		'song4_hasan'.bufnum +>.buf \hasansong;
+		0.2 +>.vol \hasansong;
+		SF.playbuf ++> \hasansong;
+
+		JLslider(1, 1, { | val |
+			var scaled;
+			scaled = val / 127;
+			1 - scaled +>.wet 'pinkamp';
+			// scaled + 0.5 +>.vol 'pv';
+		});
+
+		JLbutton (4, 3, {
+			
+		});
+
+	}
+
 	*pv {
 		"--- Starting Hasan Song: PV".postln;
 		"(hasansong.pv)".arlink;
@@ -31,3 +57,17 @@ HasanSong {
 	}
 	
 }
+
+/*
+
+HasanSong.pv;
+HasanSong.bridge;
+
+2 +>.thresh \pv;
+
+0.5 +>.rate \hasansong;
+
+1 +>.wet \pinkamp;
+
+
+*/

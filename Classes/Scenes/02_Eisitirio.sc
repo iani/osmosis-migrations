@@ -5,17 +5,20 @@ Eisitirio {
 		//: PlayBuf: Use envelope to stop. Startpos, dur, rate
 		"--- Scene 1 - INTRO".postln;
 		this.introMIDI;
-		"(eisagogi.[sendpitchamp.panamp])".arlink;
+		// "(eisagogi.[sendpitchamp.panamp])".arlink;
+
+		"(eisagogi[sendpitchamp.panamp])".arlink;
+		
+		// "(eisagogi.panamp)".arlink;
 
 		OSCdef (\pitchamp, { | msg |
 			OF.send ([msg [0], freqspec.unmap (msg [3]), msg [4], msg [5]]);
 			msg.postln;
-
-		}, '/pitchamp').permanent;
+		}, '/pitchamp').permanent = true;
 
 		
 		SF.sendpitchamp ++> \sendpitchamp;
-		SF.panamp +>> \panamp;
+		SF.panamp ++> \panamp;
 		'eisitirio'.bufnum +>.buf 'eisagogi';
 		0 +>.from 'eisagogi';
 		1 +>.rate 'eisagogi';
