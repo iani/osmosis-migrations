@@ -1,12 +1,86 @@
 HasanSong {
 	*plain {
 		"--- Starting Hasan Song: PLAIN".postln;
-		"hasansong".arlink;
+		this.volSlider (1, 1, \hasansong);
+		"hasansong(dalwk.amp)".arlink;
 		'song4_hasan'.bufnum +>.buf \hasansong;
 		0.2 +>.vol \hasansong;
 		SF.playbuf ++> \hasansong;
 	}
 
+	*volSlider { | row = 1, col = 1, splayer |
+		JLslider (row, col, { | val |
+			val = val / 127 * 2;
+			val +>.vol splayer;
+		});
+	}
+	
+	*ypochthonio {
+		// var a, b, c;
+		this.volSlider (1, 1, \hasansong);
+		1 +>.vol \hasansong;
+		
+		"/Users/iani/Library/Application Support/SuperCollider/Extensions/150921PerformigrationsOsmosisTransitions/Classes/Scenes/ypochthonio.scd".load;
+
+		/*
+		a=c=nil;b=SinOsc;9.do{|i|a=a++"b.ar("++(99/(i+1)).asString++"*";c=c++")"};
+		
+		{FreeVerb.ar((a++"9"++c).interpret)!2 * \fader0.kr(1) * 3 } ++> \hasansong;
+		*/
+	}
+
+	*dalwlk {
+		var x, b;
+		this.volSlider (1, 2, \dalwlk);
+		JLslider (2, 1, { | val |
+			val * 10 + 1 +>.pulse \dalwlk;
+		});
+
+		JLslider (2, 2, { | val |
+			val * 10 + 0.1 +>.sweep \dalwlk;
+		});
+		
+		OSCdef (\amp, { | msg |
+			OF.send ([msg [0], msg [3]]);
+			// msg.postln;
+		}, '/amp').permanent = true;
+		
+		0 +>.vol \dalwlk;
+
+		"hasansong.dalwlk".arlink;
+		
+		{ | vol = 1 pulse = 3 sweep = 4.1 |
+			var src, amp;
+			src = 10 * GVerb.ar(TGrains.ar(2, Pulse.ar(pulse),
+				// Buffer.read(Server.default,Platform.resourceDir+/+"sounds/a11wlk01.wav"),
+				'song1'.bufnum,
+				Sweep.ar(x=Pulse.ar(sweep)), x, Sweep.ar(x)
+			));
+			amp = Amplitude.kr (Mix.ar (*src));
+			SendReply.kr (Impulse.kr (30), '/amp', amp + 0.5, -1);
+			src * vol;
+		} ++> \dalwlk;
+
+		
+		/*
+		{ | vol = 1 |
+			var src;
+			src = 10 * GVerb.ar(
+				TGrains.ar(2, Pulse.ar(3),
+					// Buffer.read(Server.default,Platform.resourceDir+/+"sounds/a11wlk01.wav"),
+					'song1'.bufnum,
+					Sweep.ar(x=Pulse.ar(4s)), x, Sweep.ar(x))
+			);
+			SendReply.kr (
+				Impulse.kr (30), '/amp',
+				[Amplitude.kr (src)],
+				replyID: -1
+			);
+			src * vol;
+		} ++> \dalwlk;
+		*/
+	}
+	
 	*bridge {
 		"--- Starting Hasan Song: PV".postln;
 		"(hasansong.pinkamp)".arlink;

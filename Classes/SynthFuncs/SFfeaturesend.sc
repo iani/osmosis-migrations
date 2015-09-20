@@ -18,6 +18,19 @@
 			Silent.ar ()
 		}
 	}
+
+	*sendamp {
+		^{
+			var in, amp;
+			in = Inp.ar;
+			amp = Amplitude.kr (in);
+			SendReply.kr (Impulse.kr (30), '/amp',
+				[amp, 1, 2, 3],
+				replyID: -1
+			) ;
+			Silent.ar ()
+		}
+	}
 }
 
 /*
@@ -25,6 +38,10 @@
 0.2 +>.vol \hasansong;
 SF.playbuf ++> \hasansong;
 
+
+SF.sendpitchamp ++> \test;
+
+SF.sendamp ++> \amp;
 
 SF.amp ++> \pv;
 */

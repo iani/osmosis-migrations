@@ -10,7 +10,8 @@ Scenes {
 	
 	*connectJLC {
 		JLbutton (1, 1, { HasanSong.plain }, { \hasansong release: 3 });
-		JLbutton (1, 2, { HasanSong.bridge }, { \hasansong release: 3 });
+		JLbutton (1, 2, { HasanSong.ypochthonio }, { \hasansong release: 3 });
+		JLbutton (1, 3, { HasanSong.dalwlk }, { \dalwlk release: 3 });
 		JLbutton (2, 1, { Eisitirio.intro }, { \eisagogi release: 3 });
 		JLbutton (2, 2, { Eisitirio.harmonies }, { \eisagogi release: 3 });
 		JLbutton (3, 1, { Reza.start }, { \reza release: 3 });
