@@ -36,6 +36,9 @@ Buffers:
 
 * MIDI controller config
 ** MIDI assignments per scene
+:PROPERTIES:
+:DATE:     <2015-09-20 Sun 17:31>
+:END:
 
 Scene and sub-scene switches are assigned to buttons on JLC.
 Main scenes are assigned to top row buttons, from left to right.
@@ -45,11 +48,22 @@ Subscenes to subsequent rows. Each column of buttons belongs to one scene.
 | 2 | 1 | eisitirio plain                   |   |
 | 2 | 2 | eisitirio  harmonies              |   |
 | 3 | 1 | reza woman letter                 |   |
-| 4 | 1 | reza2 song                    |   |
-| 4 | 2 | reza2 song pv                |   |
+| 4 | 1 | reza2 song                        |   |
+| 4 | 2 | reza2 song pv                     |   |
 | 5 | 1 | lefteris                          |   |
 | 6 | 1 | has song pv                       |   |
 | 7 | 1 | epilogue: funny story / manifesto |   |
+*** 1 Hasan Song Dance 1 plain
+*** 2. Eisitirio
+**** 2.1 Eisitirio Plain
+**** 2.2 Eisitirio Harmonies
+*** 3.1 Reza Woman Letter
+*** 4. Reza 2 Song
+**** 4.1 Reza 2 Song plain
+**** 4.2 Reza 2 Song PV
+*** 5. Levteris
+*** 6. Hasan Song Dance 2 PV
+*** 7. Aerodromio
 
 
 ** MIDI messages sent by controllers used in show

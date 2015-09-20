@@ -1,16 +1,14 @@
-
-
 RezaSong {
 	*plain {
+		"--- Starting Hasan Song: PLAIN".postln;
 		"rezasong".arlink;
-		"--- Starting Reza2 Song: PLAIN".postln;
 		'song1'.bufnum +>.buf \rezasong;
 		0.2 +>.vol \rezasong;
 		SF.playbuf ++> \rezasong;
 	}
 
 	*pv {
-		"--- Starting Reza2 Song: PV".postln;
+		"--- Starting Hasan Song: PV".postln;
 		"(rezasong.pv)".arlink;
 
 		SF.magabovepan ++> \pv;
