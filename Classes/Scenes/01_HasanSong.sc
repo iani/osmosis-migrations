@@ -30,22 +30,22 @@ HasanSong {
 	}
 
 	*dalwlk {
-		var x, b;
+		var x, b, sweepspec;
+		sweepspec = ControlSpec (0.2, 30, 'exp');
 		this.volSlider (1, 2, \dalwlk);
 		JLslider (2, 1, { | val |
 			val * 10 + 1 +>.pulse \dalwlk;
 		});
 
 		JLslider (2, 2, { | val |
-			val * 10 + 0.1 +>.sweep \dalwlk;
+			sweepspec.map (val / 127) +>.sweep \dalwlk;
 		});
 
 		JLbutton (1, 6, {
 			3 +>.pulse \dalwk;
 			4s +>.sweep \dalwk;
 		}, {
-			1000 +>.pulse \dalwk;
-			
+			1000 +>.pulse \dalwk;		
 		});
 		
 		OSCdef (\amp, { | msg |

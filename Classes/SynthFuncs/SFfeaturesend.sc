@@ -25,7 +25,7 @@
 			in = Inp.ar;
 			amp = Amplitude.kr (in);
 			SendReply.kr (Impulse.kr (30), '/amp',
-				[amp, 1, 2, 3],
+				[amp],
 				replyID: -1
 			) ;
 			Silent.ar ()

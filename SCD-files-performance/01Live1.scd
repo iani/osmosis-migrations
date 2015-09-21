@@ -36,14 +36,6 @@ Server.killAll;
 "(tickly.lpf)".arlink;
 //:
 
-\tickly.st ++> \lpf;
-
-//:
-
-\tickly.st ++> \root;
-
-//:
-
 { Resonz.ar(Inp.ar, [500, 1000], 0.1) * 20 } ++> \lpf;
 
 //:

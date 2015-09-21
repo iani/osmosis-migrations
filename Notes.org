@@ -33,6 +33,25 @@ Buffers:
 5. lefteris
 6. pre-finale : hasan song dance distorted, wilder
 7. hasan: eimaste metanastes or: stories: frappe
+** Master plan 3 (21.9)
+:PROPERTIES:
+:DATE:     <2015-09-21 Mon 07:19>
+:END:
+
+| ! |  ! |     | sound              | image                 | action         | master_button |
+| # |  1 | 1.1 | hasan song         | circle-wave           | hasan perf.    |           1.1 |
+| # |  2 | 1.2 | ypochthonio        | chaos globe           | hasan off      |           2.1 |
+| # |  3 | 1.3 | dark gloog         | globe slows           | -              |           3.1 |
+| # |  4 | 2.1 | eisitirio          | persian phrase        | -              |           1.2 |
+| # |  5 | 2.2 | eis. resonz        | color polygons        | -              |           2.2 |
+| # |  6 | 3.1 | reza letter        | woman + webcam        | reza w. webcam |           1.3 |
+| # |  7 | 4.1 | reza song          | spiral tail           | reza dance?    |           1.4 |
+| # |  8 | 5.1 | levteris           | line on hand          | levteris dance |           1.5 |
+| # |  9 | 5.2 | + tickly l. live   | line on hand          | levteris dance |           2.5 |
+| # | 10 | 6.1 | stories "anekdota" | straight line         | ?              |           1.6 |
+| # | 11 | 7.1 | very fast:         | spiral tail b?/ globe | ?              |           1.7 |
+#+TBLFM: $2=@-1 + 1::@2$2=1
+
 
 * MIDI controller config
 ** MIDI assignments
