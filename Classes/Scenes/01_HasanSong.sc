@@ -39,6 +39,14 @@ HasanSong {
 		JLslider (2, 2, { | val |
 			val * 10 + 0.1 +>.sweep \dalwlk;
 		});
+
+		JLbutton (1, 6, {
+			3 +>.pulse \dalwk;
+			4s +>.sweep \dalwk;
+		}, {
+			1000 +>.pulse \dalwk;
+			
+		});
 		
 		OSCdef (\amp, { | msg |
 			OF.send ([msg [0], msg [3]]);
@@ -51,14 +59,16 @@ HasanSong {
 		
 		{ | vol = 1 pulse = 3 sweep = 4.1 |
 			var src, amp;
-			src = 10 * GVerb.ar(TGrains.ar(2, Pulse.ar(pulse),
+			src = GVerb.ar(TGrains.ar(2, Pulse.ar(pulse),
 				// Buffer.read(Server.default,Platform.resourceDir+/+"sounds/a11wlk01.wav"),
 				'song1'.bufnum,
 				Sweep.ar(x=Pulse.ar(sweep)), x, Sweep.ar(x)
-			));
+			)) * 10
+			* vol;
+			
 			amp = Amplitude.kr (Mix.ar (*src));
 			SendReply.kr (Impulse.kr (30), '/amp', amp + 0.5, -1);
-			src * vol;
+			src;
 		} ++> \dalwlk;
 
 		

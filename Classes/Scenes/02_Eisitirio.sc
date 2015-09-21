@@ -42,9 +42,15 @@ Eisitirio {
 
 	*harmonies {
 		var volspec, freqspec, qspec, ratespec;
+		"HARMONIES".postln;
+		OSCdef (\pitchamp, { | msg |
+			OF.send ([msg [0], freqspec.unmap (msg [3]), msg [4], msg [5]]);
+			msg.postln;
+		}, '/pitchamp').permanent = true;
+
 		volspec = \amp.asSpec;
 		freqspec = \freq.asSpec;
-		qspec = ControlSpec (0.1, 1.1, 0.0005, 1, \exp);
+		qspec = ControlSpec (0.00005, 1.0, 'exp');
 		ratespec = ControlSpec (0, 1, 0.2, 5);
 		JLslider (2, 1, { | val |    //////////////// AMP
 			val = volspec.map (val / 127);
@@ -54,23 +60,24 @@ Eisitirio {
 			val = freqspec.map (val / 127);
 			val +>.freq \harmonies;
 		});
-		/*
+		
 		JLslider (2, 3, { | val | //////////////// Q
-			val = qspec.map (val / 127 + 0.1);
-			val +>.q \harmonies;
+			val = qspec.map (val / 127);
+			val.postln +>.q \harmonies;
 		});
-		*/
-		/*
+		
 		JLslider (2, 4, { | val | //////////////// RATE
 			val = ratespec.map (val / 127);
 			val +>.rate \eisagogi;
 		});
-		*/
-		"(eisagogi.harmonies)".arlink;
+
+		"(eisagogi[sendpitchamp.harmonies])".arlink;
+		//"(eisagogi[harmonies.sendpitchamp])".arlink;
 		'eisitirio'.bufnum +>.buf 'eisagogi';
 		1 +>.rate 'eisagogi';
 		SF.resonzpan ++> 'harmonies';
-		SF.playbufpan ++> 'eisagogi';
+		SF.playbuf ++> 'eisagogi';
+		SF.sendpitchamp ++> \sendpitchamp;
 	}
 
 	*multi {
