@@ -2,10 +2,10 @@ HasanSong {
 	*plain {
 		"--- Starting Hasan Song: PLAIN".postln;
 		this.volSlider (1, 1, \hasansong);
-		"hasansong(dalwk.amp)".arlink;
+		// "hasansong(dalwk.amp)".arlink;
 		'song4_hasan'.bufnum +>.buf \hasansong;
-		0.2 +>.vol \hasansong;
-		SF.playbuf ++> \hasansong;
+		1.0 +>.vol \hasansong;
+		SF.playbufpan ++> \hasansong;
 	}
 
 	*volSlider { | row = 1, col = 1, splayer |
@@ -18,7 +18,7 @@ HasanSong {
 	*ypochthonio {
 		// var a, b, c;
 		this.volSlider (1, 1, \hasansong);
-		1 +>.vol \hasansong;
+		0.2 +>.vol \hasansong;
 		
 		"/Users/iani/Library/Application Support/SuperCollider/Extensions/150921PerformigrationsOsmosisTransitions/Classes/Scenes/ypochthonio.scd".load;
 

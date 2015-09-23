@@ -48,8 +48,18 @@ Buffers:
 | # |  7 | 4.1 | reza song          | spiral tail           | reza dance?    |           1.4 |
 | # |  8 | 5.1 | levteris           | line on hand          | levteris dance |           1.5 |
 | # |  9 | 5.2 | + tickly l. live   | line on hand          | levteris dance |           2.5 |
-| # | 10 | 6.1 | stories "anekdota" | straight line         | ?              |           1.6 |
-| # | 11 | 7.1 | very fast:         | spiral tail b?/ globe | ?              |           1.7 |
+| # | 10 | 5.3 | noiseresonz        |                       |                |           3.5 |
+| # | 11 | 5.4 | faster1            |                       |                |           4.5 |
+| # | 12 | 5.5 | faster2            |                       |                |           5.5 |
+| # | 13 | 6.1 | stories "anekdota" | straight line         | ?              |           1.6 |
+| # | 14 | 7.1 | veryfast           | spiral tail b?/ globe | ?              |           2.6 |
+| # | 15 |     | hpf                |                       |                |           3.6 |
+| # | 16 |     | lpfnoise           |                       |                |           4.6 |
+| # | 17 |     | hpfnoise           |                       |                |           5.6 |
+| # | 18 |     | resonznoise0       |                       |                |           7.1 |
+| # | 19 |     | resonznoise1       |                       |                |           7.2 |
+| # | 20 |     | veryfast1          |                       |                |           7.3 |
+| # | 21 |     | veryfast2          |                       |                |           7.4 |
 #+TBLFM: $2=@-1 + 1::@2$2=1
 
 
