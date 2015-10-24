@@ -1,14 +1,15 @@
 RezaSong {
 	*plain {
 		"--- Starting Hasan Song: PLAIN".postln;
+		/*
 		OSCdef (\amp, { | msg |
 			OF.send ([msg [0], msg [3]]);
 		    msg.postln;
 		}, '/amp').permanent = true;
-		
+		*/
 		"(rezasong[amp.pan])".arlink;
-		SF.sendamp ++> \amp;
-		SF.panamp ++> \pan;
+		// SF.sendamp ++> \amp;
+		// SF.panamp ++> \pan;
 		'song1'.bufnum +>.buf \rezasong;
 		0.2 +>.vol \rezasong;
 		SF.playbuf ++> \rezasong;

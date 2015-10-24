@@ -8,6 +8,8 @@
 {b=SinOsc;Pan2.ar(AllpassC.ar(a=b.ar(PulseCount.ar(Impulse.ar(3),PinkNoise.ar)*437),0.1,0.01),b.ar(79*b.ar(1/1).abs/a)) * 0.5} ++> \tickly;
 
 //:
+\tickly release: 1;
+//:
 
 { | vol = 1 | Resonz.ar(Inp.ar, [500, 1000], 0.1) * 5 * vol } ++> \lpf;
 

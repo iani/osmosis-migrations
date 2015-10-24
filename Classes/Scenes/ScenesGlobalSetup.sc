@@ -1,14 +1,53 @@
 Scenes {
+	*start {
+		this.init;
+		this.startServerAndRecord;
+	}
+
 	*init {
-		Server.local.boot;
 		BufferList.loadFolder;
 		MIDIIn.connectAll;
 		// MIDIFunc trace: true;
 		this.connectJLC;
 		this.connectLivid;
 	}
-	
+
+	*startServerAndRecord {
+		Server.default.options.numOutputBusChannels = 3; // 3d bus records mic: voice
+		Server.default.waitForBoot ({
+			this.record;
+		});
+
+	}
+
+	*record {
+		{
+			0.1.wait;
+			Server.default.prepareForRecord;
+			0.1.wait;
+			Server.default.record;
+			0.1.wait;
+			{
+				Out.ar (2, In.ar (3) )
+			}.play;
+			0.1.wait;
+			Server.default.meter;
+		}.fork (AppClock);
+	}
+
+	*end {
+		this.stopRecording;
+	}
+
+	*stopRecording {
+		Server.default.stopRecording;
+	}
+
 	*connectJLC {
+		/* New scene setup for mystationathens 
+			
+		*/
+
 		JLbutton (1, 1, { HasanSong.plain }, { \hasansong release: 3 });
 		JLbutton (1, 2, { HasanSong.ypochthonio }, { \hasansong release: 3 });
 		JLbutton (1, 3, { HasanSong.dalwlk }, { \dalwlk release: 3 });
