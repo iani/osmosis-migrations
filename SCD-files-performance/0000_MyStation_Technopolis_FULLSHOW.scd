@@ -1,5 +1,4 @@
 /*
-
 1. Intro: Thalassa : (Noise)
 2. Enter Reza poiima letter to beloved
 -  Fadeout Thalassa
@@ -11,8 +10,6 @@
 4. Lefteris: Mama, poreia, choros (tickly synecheia)
 5. Finale: Tragoudi reza. + 
 	+ multi voice Blip (from tiny-sc)
-
-
 */
 
 Scenes.init;
@@ -50,22 +47,21 @@ Scenes.init;
 \thalassa2 release: 5;
 //:
 'pinelo'.bufnum +>.buf \hasanpinelo;
-0.8 +>.vol \hasanpinelo;
-
-0.5 +>.vol \hasanpinelo;
-
-0.3 +>.vol \hasanpinelo;
-
-0.1 +>.vol \hasanpinelo;
-
-5 +>.vol \hasanpinelo;
-
-SF.playbufpan ++> \hasanpinelo;
-
 1 +>.loop 'hasanpinelo';
-
+1 +>.vol \hasanpinelo;
+SF.playbufpan ++> \hasanpinelo;
+//:
+0.8 +>.vol \hasanpinelo;
+0.5 +>.vol \hasanpinelo;
+0.3 +>.vol \hasanpinelo;
+0.1 +>.vol \hasanpinelo;
+5 +>.vol \hasanpinelo;
+//:
 HasanSong.plain;
-\hasansong release: 3;
+//:
+\hasansong release: 7;
+//:
+\hasanpinelo release: 5;
 
 //:  AYDIM ////////////////////////////////////////////////////////////////
 
@@ -76,6 +72,26 @@ HasanSong.plain;
 	AllpassC.ar(a=b.ar(PulseCount.ar(
 		Impulse.ar([2, 1]),
 		PinkNoise.ar)*437),0.1,0.01)
+	* vol;
+} ++> \tickly;
+
+//:
+"tickly".arlink;
+{ | vol = 0.1 |
+	b=SinOsc;
+	AllpassC.ar(a=b.ar(PulseCount.ar(
+		Impulse.ar([3, 2]),
+		PinkNoise.ar)*437),0.1,0.01)
+	* vol;
+} ++> \tickly;
+
+//:
+"tickly".arlink;
+{ | vol = 0.1 |
+	b=SinOsc;
+	AllpassC.ar(a=b.ar(PulseCount.ar(
+		Impulse.ar([3, 2]),
+		PinkNoise.ar)*437 / 2),0.1,0.01)
 	* vol;
 } ++> \tickly;
 
@@ -497,12 +513,13 @@ SF.playbuf ++> \m4;
 
 
 //: FINAL THALASSA //////////////// REZA SONG ////////////////
-
+// ////////////////////////////////////////////////////////////////
 // RezaSong.plain;
 
 'song1'.bufnum +>.buf \rezasong;
 1 +>.vol \rezasong;
-SF.playbuf ++> \rezasong;
+SF.playbufpan ++> \rezasong;
+1 +>.loop \rezasong;
 //:
 
 \song1.buf.play;
@@ -512,3 +529,83 @@ Scenes.init;
 
 //:
 \tickly.release;
+
+//: Crazy multi mix
+
+  { | n |
+      var name;
+      name = format("multi%", n).asSymbol;
+      n = n % 4;
+      {
+          Blip.arps(
+              1 + n / 2 * Line.kr(Rand(20, 80).midicps, Rand(20, 80).midicps, Rand(0.1, 1)),
+              Line.kr(Rand(5, 25), Rand(5, 25), 0.5)
+          ).perform([\perc, \sine]@@n)
+      } +> name;
+
+      ([0.25.pn(14), 5 ! 3, 1, 2, 0.1 ! 10, 3] / (0.5 + (n / 4))).flat.prand *> name;
+  } ! 8;
+
+//:
+\multi0 **>.xoooo \multi0; // use **> to prevent re-starting the master Task
+\multi1 **>.xoooo \multi1;
+\multi2 **>.xoooo \multi2;
+\multi3 **>.x \multi3;
+\multi4 **>.xoooo \multi4;
+\multi5 **>.xoooo \multi5;
+\multi6 **>.xoooo \multi6;
+\multi7 **>.xoooo \multi7;
+//:
+\multi0 **>.xoooo \multi0;
+\multi1 **>.o \multi1;
+\multi2 **>.o \multi2;
+\multi3 **>.x \multi3;
+\multi4 **>.o \multi4;
+\multi5 **>.o \multi5;
+\multi6 **>.o \multi6;
+\multi7 **>.xo \multi7;
+//:
+
+\multi7 **> \multi7;
+\multi6 **>.xo \multi7;
+\multi5 **>>.xo \_multi7;
+\multi4 **>>.xo \__multi7;
+\multi3 **>>.xo \___multi7;
+\multi2 **>>.xo \____multi7;
+\multi1 **>>.xo \_____multi7;
+\multi0 **>>.xo \______multi7;
+//:
+\multi7 *> 0.1;
+//:
+0.1 +>.vol \rezasong;
+//:
+
+([0.25.pn(14), 5 ! 3, 1, 0.4 ! 10, 0.1 ! 20, 3] / 4).flat.prand *> \multi7;
+{ | n | Pfunc({ 0.01 exprand: 0.35 }) +>.amp format("multi%", n).asSymbol } ! 8;
+//:
+
+([0.25.pn(14), 5 ! 3, 1, 0.4 ! 10, 0.1 ! 20, 3] / 4).flat.prand *> \multi7;
+\multi7 **> \multi7;
+\multi6 **>.xo \multi7;
+\multi5 **>>.xo \_multi7;
+\multi4 **>>.xo \__multi7;
+([0.25.pn(14), 5 ! 3, 1, 0.4 ! 10, 0.1 ! 20, 3]).flat.prand *> \multi3;
+\multi3 **>.xoo \multi3;
+\multi2 **>>.xoo \_multi3;
+\multi1 **>>.xoo \__multi3;
+\multi0 **>>.xoo \___multi3;
+//:
+TaskPlayer.stopAll;
+//:
+0.01 *> \multi0;
+//:
+
+0.1 *> \multi1;
+//:
+\multi2 **>>.xo \multi1;
+0.5 +>.amp \multi2;
+//:
+\multi3 **>>.xo \_multi1;
+
+
+

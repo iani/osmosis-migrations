@@ -1,13 +1,13 @@
 SF {
 	*playbuf {
 		^{ | buf = 0, rate = 1, trigger = 0, startPos = 0, loop = 0,
-			doneAction = 0 |
+			doneAction = 0, vol = 1 |
 			var src;
 			src = PlayBuf.ar(1, buf, rate * BufRateScale.kr(buf),
 				trigger, startPos * BufSampleRate.kr (buf),
 				loop, doneAction
 			);
-			src;
+			src * vol;
 		}
 	}
  
