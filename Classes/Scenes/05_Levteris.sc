@@ -29,7 +29,7 @@ Levteris {
 	}
 
 	*faster1 {
-		{
+λ		{
 			var a, b;
 			b=SinOsc;
 			AllpassC.ar(a=b.ar(PulseCount.ar(

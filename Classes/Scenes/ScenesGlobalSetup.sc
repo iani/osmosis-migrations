@@ -5,6 +5,8 @@ Scenes {
 	}
 
 	*init {
+		Server.default.options.numOutputBusChannels = 3; // 3d bus records mic: voice
+
 		BufferList.loadFolder;
 		MIDIIn.connectAll;
 		// MIDIFunc trace: true;
@@ -13,7 +15,6 @@ Scenes {
 	}
 
 	*startServerAndRecord {
-		Server.default.options.numOutputBusChannels = 3; // 3d bus records mic: voice
 		Server.default.waitForBoot ({
 			this.record;
 		});

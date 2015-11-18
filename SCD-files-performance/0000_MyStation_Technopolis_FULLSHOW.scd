@@ -13,15 +13,37 @@
 */
 
 Scenes.init;
+Server.default.meter;
+//:
+Scenes.start;
+
+//:
+/
 //:
 2 +>.fadeTime \thalassa;
 2 +>.fadeTime \thalassa2;
+
+//:
+\thalassa.release;
+\thalassa2 release: 10;
 //:
 { WhiteNoise.ar ([0.01, 0.01]) } ++> \thalassa;
+
+
+{ WhiteNoise.ar ([0.01, 0.01]) } ++> \thalassa;
+
+
+{ WhiteNoise.ar ([0.05, 0.05]) } ++> \thalassa;
 { WhiteNoise.ar ([0.1, 0.1]) } ++> \thalassa;
 { PinkNoise.ar ([0.09, 0.09]) } ++> \thalassa;
 { BrownNoise.ar ([0.09, 0.09]) } ++> \thalassa;
 { GrayNoise.ar ([0.09, 0.09]) } ++> \thalassa;
+
+{ GrayNoise.ar (0.001 ! 8) } ++> \thalassa;
+
+{ GrayNoise.ar ({ LFNoise0.kr (1).range (0.001, 0.01 )} ! 8) } ++> \thalassa;
+
+{ GrayNoise.ar (LFNoise0.kr (1).range (0.01, 0.1).dup) } ++> \thalassa;
 { GrayNoise.ar (LFNoise0.kr (1).range (0.01, 0.1).dup) } ++> \thalassa;
 { PinkNoise.ar (LFNoise1.kr (0.5).range (0.01, 0.2).dup) } ++> \thalassa;
 { BrownNoise.ar (LFNoise1.kr (1.5).range (0.01, 0.04).dup) } ++> \thalassa2;
@@ -30,20 +52,21 @@ Scenes.init;
 
 //:
 { Resonz.ar (
-	BrownNoise.ar (Decay2.kr (Dust.kr (4), 1.3, 1)),
-	LFNoise0.kr ([1, 5]).range (100, 1000),
-	1
+	BrownNoise.ar (Decay2.kr (Dust.kr (4), 0.3, 1)),
+	LFNoise0.kr ([15, 15]).range (1500, 5000),
+	2
 ) } ++> \thalassa2;
 
 //:
 { Resonz.ar (
-	PinkNoise.ar (Decay2.kr (Dust.kr (1), 1.3, 1)),
-	LFNoise2.kr ([1, 5]).range (1000, 4000),
-    2
+	0.15 *
+	PinkNoise.ar (Decay2.kr (Dust.kr (10), 0.3, 1)),
+	LFNoise2.kr ([15, 15]).range (1000, 14000),
+    4
 ) } ++> \thalassa;
 
 //:
-\thalassa release: 1;
+\thalassa release: 10;
 \thalassa2 release: 5;
 //:
 'pinelo'.bufnum +>.buf \hasanpinelo;
@@ -56,27 +79,36 @@ SF.playbufpan ++> \hasanpinelo;
 0.3 +>.vol \hasanpinelo;
 0.1 +>.vol \hasanpinelo;
 5 +>.vol \hasanpinelo;
+2 +>.vol \hasanpinelo;
 //:
 HasanSong.plain;
 //:
 \hasansong release: 7;
 //:
-\hasanpinelo release: 5;
+\hasanpinelo release: 8;
 
 //:  AYDIM ////////////////////////////////////////////////////////////////
 
 //:
 "tickly".arlink;
+//:
 { | vol = 0.1 |
 	b=SinOsc;
 	AllpassC.ar(a=b.ar(PulseCount.ar(
-		Impulse.ar([2, 1]),
+		Impulse.ar([8, 4, 1, 2]),
 		PinkNoise.ar)*437),0.1,0.01)
-	* vol;
+	* vol * [0.1, 0.2, 0.4, 0.4, 0.5, 0.6, 0.8];
 } ++> \tickly;
-
 //:
-"tickly".arlink;
+0.4 +>.vol \tickly;
+//:
+0.2 +>.vol \tickly;
+//:
+0.1 +>.vol \tickly;
+//:
+0.05 +>.vol \tickly;
+//:
+// "tickly".arlink;
 { | vol = 0.1 |
 	b=SinOsc;
 	AllpassC.ar(a=b.ar(PulseCount.ar(
@@ -86,13 +118,13 @@ HasanSong.plain;
 } ++> \tickly;
 
 //:
-"tickly".arlink;
+// "tickly".arlink;
 { | vol = 0.1 |
 	b=SinOsc;
 	AllpassC.ar(a=b.ar(PulseCount.ar(
 		Impulse.ar([3, 2]),
-		PinkNoise.ar)*437 / 2),0.1,0.01)
-	* vol;
+		PinkNoise.ar)*437 / 3), 0.2, LFNoise1.kr ())
+	* vol * (2 ! 8);
 } ++> \tickly;
 
 //:
@@ -101,9 +133,9 @@ HasanSong.plain;
 { | vol = 0.1 |
 	b=SinOsc;
 	AllpassC.ar(a=b.ar(PulseCount.ar(
-		Impulse.ar([8, 4]),
+		Impulse.ar([8, 4, 2, 3, 6]),
 		PinkNoise.ar)*437),0.1,0.01)
-	* vol;
+	* vol * [1, 0.5, 0.8, 0.2, 0.4, 0.6];
 } ++> \tickly;
 //:
 { | vol = 0.1 |
@@ -196,7 +228,23 @@ HasanSong.plain;
 0.1 +>.vol \tickly;
 0.05 +>.vol \tickly;
 
+//:
+"(tickly.lpf)".arlink;
+{ | vol = 0.7 | Resonz.ar(Inp.ar, [500, 1000], 0.1) * 10 * vol
+} ++> \lpf;
+{ var b;
+	b=SinOsc;Pan2.ar(AllpassC.ar(a=b.ar(
+		PulseCount.ar(Impulse.ar(3),PinkNoise.ar)*437
+	),0.1,0.01),b.ar(79*b.ar(1/1).abs/a))
+	* [0.2, 0.3, 0.5, 0.1, 0, 0, 0.2]
+} ++> \tickly;
 
+//:
+
+{ | vol = 1 |
+	Resonz.ar(Inp.ar, [500, 1000] *
+		LFNoise0.kr (5).range (1, 2), 0.1) * 10 * vol
+} ++> \lpf;
 
 //: LEFTERIS ////////////////////////////////////////////////////////////////
 
@@ -208,13 +256,15 @@ Levteris.dance;
 Levteris.noiseresonz;
 
 1.5 +>.vol \lpf;
-0.5 +>.vol \lpf;
+0.05 +>.vol \lpf;
 
 3 +>.vol \lpf;
 \levteris release: 5;
 \lpf release: 5;
 \tickly release: 3;
 
+
+\m1 release: 5;
 // version 2
 
 //:
@@ -238,10 +288,10 @@ Levteris.noiseresonz;
 1 +>.loop \m1;
 SF.playbuf ++> \m1;
 //:
-4 +>.vol \m1;
+2 +>.vol \m1;
 
 //:
-5 +>.vol \pm1;
+2 +>.vol \pm1;
 //:
 
 3 +>.fadeTime \rm1;
@@ -252,14 +302,14 @@ SF.playbuf ++> \m1;
 //:
 { | vol = 1 |
 	 Mix (Resonz.ar (Inp.ar, 150 * [1, 1.25, 1.3, 1,5, 1.8, 2, 2.5, 3, 3.5, 4, 4.5],
-		 0.0001))
+		 0.001))
 	 * vol * 10
 } ++> \rm1;
 //:
 
 {| vol = 1 |
 	Mix (Resonz.ar (Inp.ar, 200 * [1, 1.25, 1.3, 1,5, 1.8, 2, 2.5, 3, 3.5, 4, 4.5],
-		0.0001))
+		0.001))
 	* vol * 10
 } ++> \rm1;
 //:
@@ -406,15 +456,13 @@ SF.playbuf ++> \m1;
 		0.0001))
 	* vol * 10
 } ++> \rm2;
-//:
+//: *r2_300
+{| vol = 1 |
+	Mix (Resonz.ar (Inp.ar, 300 * [1, 1.25, 1.3, 1,5, 1.8, 2, 2.5, 3, 3.5, 4, 4.5],
+		0.0001))
+	* vol * 10
+} ++> \rm2;
 
-*r2_300 {
-	{| vol = 1 |
-		Mix (Resonz.ar (Inp.ar, 300 * [1, 1.25, 1.3, 1,5, 1.8, 2, 2.5, 3, 3.5, 4, 4.5],
-			0.0001))
-		* vol * 10
-	} ++> \rm2;
-}
 
 *r2_1000 {
 	{| vol = 1 |
@@ -521,9 +569,13 @@ SF.playbuf ++> \m4;
 SF.playbufpan ++> \rezasong;
 1 +>.loop \rezasong;
 //:
+0.5 +>.vol \rezasong;
+//:
 
 \song1.buf.play;
 
+\m1.release;
+\tickly.release;
 
 Scenes.init;
 
@@ -540,7 +592,23 @@ Scenes.init;
           Blip.arps(
               1 + n / 2 * Line.kr(Rand(20, 80).midicps, Rand(20, 80).midicps, Rand(0.1, 1)),
               Line.kr(Rand(5, 25), Rand(5, 25), 0.5)
-          ).perform([\perc, \sine]@@n)
+          ).perform([\perc, \sine]@@n) * 0.4
+      } +> name;
+
+      ([0.25.pn(14), 5 ! 3, 1, 2, 0.1 ! 10, 3] / (0.5 + (n / 4))).flat.prand *> name;
+  } ! 8;
+
+//: Crazy multi mix
+
+  { | n |
+      var name;
+      name = format("multi%", n).asSymbol;
+      n = n % 4;
+      {
+          Blip.arps(
+              1 + n / 2 * Line.kr(Rand(20, 80).midicps, Rand(20, 80).midicps, Rand(0.1, 1)),
+              {Line.kr(Rand(5, 25), Rand(5, 25), 0.5)} ! 4
+          ).perform([\perc, \sine]@@n) * 0.4
       } +> name;
 
       ([0.25.pn(14), 5 ! 3, 1, 2, 0.1 ! 10, 3] / (0.5 + (n / 4))).flat.prand *> name;
@@ -577,7 +645,7 @@ Scenes.init;
 //:
 \multi7 *> 0.1;
 //:
-0.1 +>.vol \rezasong;
+0.5 +>.vol \rezasong;
 //:
 
 ([0.25.pn(14), 5 ! 3, 1, 0.4 ! 10, 0.1 ! 20, 3] / 4).flat.prand *> \multi7;
@@ -597,10 +665,10 @@ Scenes.init;
 //:
 TaskPlayer.stopAll;
 //:
-0.01 *> \multi0;
+0.003 *> \multi0;
 //:
 
-0.1 *> \multi1;
+0.01 *> \multi1;
 //:
 \multi2 **>>.xo \multi1;
 0.5 +>.amp \multi2;
@@ -609,3 +677,13 @@ TaskPlayer.stopAll;
 
 
 
+//:
+Scenes.end;
+
+//:
+\rezasong release: 10;
+
+
+//:
+a = Pbind (\degree, Pseries (0, 10, 10)).play;
+a.free;
